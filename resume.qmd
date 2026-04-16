@@ -1,0 +1,5 @@
+---
+title: "My Resume"
+---
+
+{{< pdf files/Resume_Chokhani_Divij.pdf width=100% height=800 >}}

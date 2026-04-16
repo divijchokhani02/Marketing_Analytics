@@ -1,0 +1,15 @@
+---
+title: "Divij Chokhani"
+image: "files/my_photo.jpg"
+about:
+  template: jolla
+  links:
+    - icon: envelope
+      href: mailto:dchokhani@ucsd.edu
+    - icon: linkedin
+      href: https://www.linkedin.com/in/divijchokhani
+    - icon: github
+      href: https://github.com/rsm-dchokhani
+---
+
+Welcome to my website!
