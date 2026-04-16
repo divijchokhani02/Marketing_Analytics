@@ -1,5 +1,6 @@
 ---
 title: "Divij Chokhani"
+subtitle: "Master's Student in Business Analytics at UC San Diego"
 image: "files/my_photo.jpg"
 about:
   template: jolla
@@ -13,3 +14,4 @@ about:
 ---
 
 Welcome to my website!
+I am a Master's student in Business Analytics at the Rady School of Management, University of California, San Diego. I have a strong background in data science and machine learning, and I am passionate about applying these skills to solve real-world business problems.
