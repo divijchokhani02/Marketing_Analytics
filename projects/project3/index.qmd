@@ -105,8 +105,8 @@ df.loc[df["status2"] == 3, "fte2"] = 0
 for s in [2, 4, 5]:
     df.loc[df["status2"] == s, "fte2"] = np.nan
 
-df["pct_fulltime"] = 100 * (df["nmgrs"] + df["empft"]) / df["fte"]
-df["pct_fulltime2"] = 100 * (df["nmgrs2"] + df["empft2"]) / df["fte2"]
+df["pct_fulltime"] = 100 * df["empft"] / df["fte"]
+df["pct_fulltime2"] = 100 * df["empft2"] / df["fte2"]
 df["meal_price"] = df["psoda"] + df["pfry"] + df["pentree"]
 df["meal_price2"] = df["psoda2"] + df["pfry2"] + df["pentree2"]
 df["recruit_bonus"] = 100 * (df["bonus"] == 1)
@@ -169,6 +169,14 @@ summary_table.round(2)
 ```
 
 The broad pattern matches the paper well. Before the policy change, average employment is slightly lower in New Jersey than in Pennsylvania, while starting wages are very similar. After the policy change, the biggest divergence is exactly where it should be: starting wages rise sharply in New Jersey relative to Pennsylvania.
+
+The **t statistic** column tests whether the NJ and PA means are statistically different from each other. It is computed as:
+
+$$
+t = \frac{\bar{X}_{NJ} - \bar{X}_{PA}}{\sqrt{SE_{NJ}^2 + SE_{PA}^2}}
+$$
+
+Intuitively, it measures how large the gap between states is relative to the uncertainty in the estimates. A t statistic close to 0 means the two states look similar on that variable — there is no meaningful difference. A large absolute value (roughly above 2) means the difference is unlikely to be due to chance. For example, the t statistic for starting wage in Wave 2 is 10.8, confirming that NJ wages moved sharply higher relative to PA after the policy change. In contrast, most Wave 1 variables have t statistics close to 0, which is reassuring — it means NJ and PA looked similar *before* the policy, making Pennsylvania a credible comparison group.
 
 ::: {.callout-important}
 ## Takeaway from Table 2
@@ -290,7 +298,9 @@ print(f"Standard error: {model.bse['state']:.3f}")
 print(f"Number of stores used: {len(reg_df)}")
 ```
 
-My estimate for the New Jersey coefficient is very close to the published result in Table 4, column (i). That is strong evidence that the replication is working as intended. Small discrepancies are normal in public-data replications because they can depend on exact missing-value rules and sample restrictions.
+The replicated NJ coefficient (2.36) is very close to the paper's published result of 2.33 in Table 4, column (i), and the standard error (1.15 vs. 1.19) is similarly close. The small gap is most likely explained by a sample size difference: this replication uses 365 stores, while the paper uses 357. Those 8 extra stores are probably ones where the paper applied a stricter rule for missing wage data that is not fully documented in the public codebook.
+
+One thing worth noting: this replication targets column (i) of Table 4, which is the bare-bones specification with only a NJ dummy. Column (ii) in the paper adds controls for chain type (Burger King, KFC, etc.) and whether the store is company-owned or franchised — and those controls barely change the NJ coefficient (2.30 vs. 2.33), which is itself a reassuring finding from the paper.
 
 ## Why This Supports a Causal Claim
 
@@ -314,3 +324,4 @@ This replication closely reproduces the main findings of Card and Krueger (1994)
 - the regression estimate is very close to the published result.
 
 The larger lesson is that empirical evidence can challenge simple theoretical predictions. In this case, one of the most famous studies in labor economics finds no evidence that the minimum wage increase reduced fast-food employment.
+
