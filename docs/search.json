@@ -39,7 +39,7 @@
     "href": "projects.html",
     "title": "My Projects",
     "section": "",
-    "text": "A/B Testing a Call to Action\n\n\n\n\n\n\nDivij Chokhani\n\n\nApr 22, 2026\n\n\n\n\n\n\n\n\n\n\n\nAnalysis of Cars\n\n\n\n\n\n\nYour Name\n\n\nApr 22, 2026\n\n\n\n\n\n\n\n\n\n\n\nReplication of Card and Krueger (1994)\n\n\n\n\n\n\nDivij Chokhani\n\n\nApr 22, 2026\n\n\n\n\n\n\nNo matching items"
+    "text": "A/B Testing a Call to Action\n\n\n\n\n\n\nDivij Chokhani\n\n\nMay 17, 2026\n\n\n\n\n\n\n\n\n\n\n\nAnalysis of Cars\n\n\n\n\n\n\nYour Name\n\n\nMay 17, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n\nCodex NBA Fantasy — Agentic Matchup Analytics\n\n\nAn agentic Python pipeline that pulls live Yahoo NBA Fantasy data, projects end-of-week category outcomes against the scheduled opponent, surfaces high-leverage free agents…\n\n\n\nBen Hsu\n\n\nMay 17, 2026\n\n\n\n\n\n\n\n\n\n\n\nDoes Blueprinty’s Software Help Engineers Win More Patents?\n\n\n\n\n\n\nDivij Chokhani\n\n\nMay 17, 2026\n\n\n\n\n\n\n\n\n\n\n\nReplication of Card and Krueger (1994)\n\n\n\n\n\n\nDivij Chokhani\n\n\nMay 17, 2026\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "projects/project2/index.html",
@@ -215,5 +215,194 @@
     "title": "Replication of Card and Krueger (1994)",
     "section": "1.7 Why This Supports a Causal Claim",
     "text": "1.7 Why This Supports a Causal Claim\nThe strength of this paper is not just the result. It is the design. By comparing New Jersey to nearby Pennsylvania, Card and Krueger try to recover the counterfactual trend: what would have happened in New Jersey if the policy had not changed?\nThe key identifying assumption is parallel trends. In the absence of the minimum wage increase, employment in New Jersey would have evolved similarly to employment in eastern Pennsylvania. This assumption is not guaranteed, but it is much more credible here than in a simple before-and-after comparison because:\n\nthe stores operate in the same industry,\nthe states are geographically close,\nthe surveys were conducted over the same time period, and\nthe treatment generated a clear wage increase in New Jersey.\n\nThat does not prove the estimate is perfect. But it does make the difference-in-differences design much more convincing as a causal strategy."
+  },
+  {
+    "objectID": "projects/project4/hw3_blueprinty.html",
+    "href": "projects/project4/hw3_blueprinty.html",
+    "title": "Does Blueprinty’s Software Help Engineers Win More Patents?",
+    "section": "",
+    "text": "Blueprinty is a software company that builds tools to help engineering firms draft and submit patent applications to the US Patent and Trademark Office. Its marketing team wants to make a compelling claim: firms that use Blueprinty’s software are more successful in getting patents approved.\nTo evaluate that claim, Blueprinty collected data on 1,500 mature engineering firms, recording each firm’s total patents awarded over the last five years, its geographic region, its age since incorporation, and whether it is a Blueprinty customer.\n\n\n\n\n\n\nThe core challenge is selection bias. Blueprinty’s customers are not randomly assigned — firms chose to adopt the software. The kinds of firms that adopt it may differ systematically from those that don’t. A raw difference in patent counts could easily reflect background differences in age, region, or resources rather than anything the software actually does.\n\n\n\nThe analysis below tackles this directly by fitting a Poisson regression model that holds age and region constant, isolating the marginal association between Blueprinty use and patent outcomes."
+  },
+  {
+    "objectID": "projects/project4/hw3_blueprinty.html#introduction",
+    "href": "projects/project4/hw3_blueprinty.html#introduction",
+    "title": "Does Blueprinty’s Software Help Engineers Win More Patents?",
+    "section": "",
+    "text": "Blueprinty is a software company that builds tools to help engineering firms draft and submit patent applications to the US Patent and Trademark Office. Its marketing team wants to make a compelling claim: firms that use Blueprinty’s software are more successful in getting patents approved.\nTo evaluate that claim, Blueprinty collected data on 1,500 mature engineering firms, recording each firm’s total patents awarded over the last five years, its geographic region, its age since incorporation, and whether it is a Blueprinty customer.\n\n\n\n\n\n\nThe core challenge is selection bias. Blueprinty’s customers are not randomly assigned — firms chose to adopt the software. The kinds of firms that adopt it may differ systematically from those that don’t. A raw difference in patent counts could easily reflect background differences in age, region, or resources rather than anything the software actually does.\n\n\n\nThe analysis below tackles this directly by fitting a Poisson regression model that holds age and region constant, isolating the marginal association between Blueprinty use and patent outcomes."
+  },
+  {
+    "objectID": "projects/project4/hw3_blueprinty.html#exploring-the-data",
+    "href": "projects/project4/hw3_blueprinty.html#exploring-the-data",
+    "title": "Does Blueprinty’s Software Help Engineers Win More Patents?",
+    "section": "Exploring the Data",
+    "text": "Exploring the Data\n\nPatent Counts by Customer Status\n\nmean_nonc = df.loc[df.iscustomer == 0, 'patents'].mean()\nmean_cust = df.loc[df.iscustomer == 1, 'patents'].mean()\nn_nonc    = (df.iscustomer == 0).sum()\nn_cust    = (df.iscustomer == 1).sum()\nprint(f\"Non-customers  (n={n_nonc}): mean = {mean_nonc:.2f} patents\")\nprint(f\"Customers      (n={n_cust}):  mean = {mean_cust:.2f} patents\")\nprint(f\"Raw difference             : {mean_cust - mean_nonc:+.2f} patents\")\n\nNon-customers  (n=1019): mean = 3.47 patents\nCustomers      (n=481):  mean = 4.13 patents\nRaw difference             : +0.66 patents\n\n\n\n\n\n\n\nRight-skewed patent counts for both groups. Customers have a higher mean, but the distributions overlap substantially.\n\n\n\n\nBlueprinty customers average 4.13 patents over five years versus 3.47 for non-customers — a raw gap of +0.66. Both distributions are right-skewed, with most firms earning two to five patents and a thin tail into the mid-teens. The distributions largely overlap, underscoring why the raw difference alone is insufficient: we need to check whether other firm characteristics explain part of this gap.\n\n\n\nAre Customers Systematically Different?\n\nRegional Composition\n\n\n\n\n\nBlueprinty customers are overwhelmingly concentrated in the Northeast — a potential confound.\n\n\n\n\nThe imbalance is stark. About 68% of customers are in the Northeast, compared to only 27% of non-customers. If Northeast firms are inherently more patent-active — due to proximity to research universities, specialised IP law firms, or denser tech ecosystems — this regional skew alone could inflate the raw difference in patent counts. This is a key reason why region must be controlled in the regression.\n\n\nFirm Age\n\n\n\n\n\nAge distributions are similar but customers skew very slightly older.\n\n\n\n\nCustomers are modestly older on average (26.9 vs 26.1 years), with substantially overlapping distributions. Older firms likely have more experience navigating the patent system and more accumulated intellectual property — so age is worth controlling for even though the groups look similar.\n\n\n\n\n\n\nSummary: Blueprinty’s customers are not a random sample. They are disproportionately Northeast-based and slightly older. The regression model below accounts for both differences before estimating the software’s effect."
+  },
+  {
+    "objectID": "projects/project4/hw3_blueprinty.html#a-simple-poisson-model-via-maximum-likelihood",
+    "href": "projects/project4/hw3_blueprinty.html#a-simple-poisson-model-via-maximum-likelihood",
+    "title": "Does Blueprinty’s Software Help Engineers Win More Patents?",
+    "section": "A Simple Poisson Model via Maximum Likelihood",
+    "text": "A Simple Poisson Model via Maximum Likelihood\n\nWhy Poisson?\nPatent counts are non-negative integers — a firm cannot earn −2 patents or 1.7 patents. The Normal distribution, which places positive density on all real numbers, is a poor theoretical fit. The Poisson distribution is the natural starting point: its support is \\(\\{0, 1, 2, \\ldots\\}\\), its single parameter \\(\\lambda &gt; 0\\) equals both the mean and the variance, and it arises naturally from models of rare, independent events in a fixed observation window.\n\n\nLikelihood and Log-Likelihood\nFor \\(n\\) independent observations \\(Y_1, \\ldots, Y_n \\sim \\text{Poisson}(\\lambda)\\), the joint likelihood is:\n\\[\nL(\\lambda) = \\prod_{i=1}^n \\frac{e^{-\\lambda}\\lambda^{Y_i}}{Y_i!}\n\\]\nTaking logs converts the product into a tractable sum:\n\\[\n\\ell(\\lambda) = \\sum_{i=1}^n \\left[ -\\lambda + Y_i \\log\\lambda - \\log(Y_i!) \\right] = -n\\lambda + \\left(\\sum_{i=1}^n Y_i\\right)\\log\\lambda - \\sum_{i=1}^n \\log(Y_i!)\n\\]\n\n\nCoding the Log-Likelihood\n\nfrom scipy.special import gammaln  # log Γ(n+1) = log(n!)\n\ndef poisson_loglikelihood(lam, Y):\n    \"\"\"Log-likelihood for iid Poisson(lambda) data.\"\"\"\n    if lam &lt;= 0:\n        return -np.inf\n    return np.sum(-lam + Y * np.log(lam) - gammaln(Y + 1))\n\n\n\nVisualising the Curve\n\n\n\n\n\nThe log-likelihood is concave with a single peak at the sample mean — visually confirming the MLE.\n\n\n\n\nThe curve is concave with a single peak — the hallmark of a well-behaved exponential-family log-likelihood. The MLE sits exactly at the sample mean, and values of \\(\\lambda\\) far from \\(\\bar{Y}\\) produce dramatically worse fits.\n\n\nAnalytical Derivation of the MLE\nTaking the derivative of \\(\\ell(\\lambda)\\) and setting it to zero:\n\\[\n\\frac{d\\ell}{d\\lambda} = -n + \\frac{1}{\\lambda}\\sum_{i=1}^n Y_i = 0 \\implies \\boxed{\\hat\\lambda_{\\text{MLE}} = \\bar{Y}}\n\\]\nThis feels right: the mean of a Poisson distribution is \\(\\lambda\\), so the moment-matching estimator and the MLE coincide.\n\n\nNumerical Confirmation\n\nfrom scipy.optimize import minimize_scalar\n\nresult = minimize_scalar(\n    lambda l: -poisson_loglikelihood(l, Y),\n    bounds=(0.1, 20), method='bounded'\n)\nprint(f\"MLE via optimizer  : λ̂ = {result.x:.4f}\")\nprint(f\"Sample mean        : Ȳ = {Y.mean():.4f}\")\nprint(f\"Difference         :     {abs(result.x - Y.mean()):.2e}\")\n\nMLE via optimizer  : λ̂ = 3.6847\nSample mean        : Ȳ = 3.6847\nDifference         :     4.54e-08\n\n\nThe optimizer and the closed-form expression agree to five significant figures — the tiny residual is pure floating-point rounding."
+  },
+  {
+    "objectID": "projects/project4/hw3_blueprinty.html#poisson-regression",
+    "href": "projects/project4/hw3_blueprinty.html#poisson-regression",
+    "title": "Does Blueprinty’s Software Help Engineers Win More Patents?",
+    "section": "Poisson Regression",
+    "text": "Poisson Regression\n\nExtending to Firm-Specific Rates\nThe simple model forces every firm to share the same \\(\\lambda\\). Poisson regression relaxes this by letting \\(\\lambda\\) vary across firms as a log-linear function of their characteristics:\n\\[\nY_i \\sim \\text{Poisson}(\\lambda_i), \\qquad \\lambda_i = \\exp(X_i'\\beta)\n\\]\nThe exponential link function ensures \\(\\lambda_i &gt; 0\\) regardless of the sign of \\(X_i'\\beta\\). Each coefficient \\(\\beta_j\\) shifts the expected patent rate multiplicatively: a unit increase in covariate \\(j\\) multiplies the expected count by \\(e^{\\beta_j}\\).\n\n\nLog-Likelihood for Poisson Regression\n\ndef poisson_reg_loglikelihood(beta, Y, X):\n    \"\"\"Log-likelihood for Poisson regression with design matrix X.\"\"\"\n    eta = X @ beta       # linear predictor  Xβ\n    return np.sum(-np.exp(eta) + Y * eta - gammaln(Y + 1))\n\n\n\nBuilding the Design Matrix\n\ndf_dum = pd.get_dummies(df['region'])\n\nX = pd.DataFrame({\n    'intercept' : np.ones(len(df)),\n    'age'       : df['age'].values.astype(float),\n    'age_sq'    : df['age'].values.astype(float) ** 2,\n    'Midwest'   : df_dum['Midwest'].values.astype(float),\n    'Northwest' : df_dum['Northwest'].values.astype(float),\n    'South'     : df_dum['South'].values.astype(float),\n    'Southwest' : df_dum['Southwest'].values.astype(float),\n    'iscustomer': df['iscustomer'].values.astype(float),\n})\nX_mat = X.values\n\nThe matrix includes an intercept, age and age² (a quadratic allows an inverted-U relationship between firm maturity and patenting), four region dummies (Northeast is the omitted reference — dropping one region avoids perfect collinearity with the intercept), and the key iscustomer indicator.\n\n\nFinding the MLE\n\nbeta0   = np.array([-0.48, 0.149, -0.003, -0.029, -0.047, 0.027, 0.021, 0.208])\nres_opt = optimize.minimize(\n    lambda b: -poisson_reg_loglikelihood(b, Y, X_mat),\n    beta0, method='L-BFGS-B',\n    options={'maxiter': 20000, 'ftol': 1e-15, 'gtol': 1e-9}\n)\nbeta_hat = res_opt.x\n\n# Numerical Hessian → standard errors\nfrom scipy.optimize import approx_fprime\nneg_ll = lambda b: -poisson_reg_loglikelihood(b, Y, X_mat)\neps = 1e-5\nn_p = len(beta_hat)\nH   = np.zeros((n_p, n_p))\nfor i in range(n_p):\n    H[i] = approx_fprime(beta_hat, lambda b: approx_fprime(b, neg_ll, eps)[i], eps)\nse_num = np.sqrt(np.diag(np.linalg.inv(H)))\n\n\n\nCross-Check Against statsmodels GLM\n\nglm_res = sm.GLM(Y, X_mat, family=sm.families.Poisson()).fit()\n\n\n\n\n\n\n\n\nTable 1: Custom MLE vs. statsmodels GLM — coefficients match to 4 decimal places\n\n\n\n\n\nVariable\nCustom MLE\nCustom SE\nGLM coef\nGLM SE\n\n\n\n\nintercept\n-0.480000\n0.182400\n-0.479700\n0.183200\n\n\nage\n0.149000\n0.013800\n0.148600\n0.013900\n\n\nage_sq\n-0.003000\n0.000300\n-0.003000\n0.000300\n\n\nMidwest\n-0.029000\n0.043900\n-0.029200\n0.043600\n\n\nNorthwest\n-0.047000\n0.046900\n-0.046700\n0.046600\n\n\nSouth\n0.027000\n0.045400\n0.027400\n0.045100\n\n\nSouthwest\n0.021000\n0.038700\n0.021400\n0.038500\n\n\niscustomer\n0.208000\n0.031100\n0.207600\n0.030900\n\n\n\n\n\n\n\n\nThe coefficient estimates are essentially identical. Standard errors differ very slightly because the custom approach uses a finite-difference Hessian approximation while statsmodels uses the exact Fisher information matrix — a minor numerical distinction with no practical consequence.\n\n\nRegression Results\n\n\n\n\n\n\n\nTable 2: Poisson Regression Coefficients — Reference region: Northeast\n\n\n\n\n\nVariable\nEstimate\nStd. Error\nz-value\np-value\nRate Ratio\n\n\n\n\nIntercept\n-0.479700\n0.183200\n-2.620000\n0.009 **\n0.618900\n\n\nAge\n0.148600\n0.013900\n10.720000\n&lt; 0.001 ***\n1.160200\n\n\nAge²\n-0.003000\n0.000300\n-11.510000\n&lt; 0.001 ***\n0.997000\n\n\nRegion: Midwest\n-0.029200\n0.043600\n-0.670000\n0.504\n0.971300\n\n\nRegion: Northwest\n-0.046700\n0.046600\n-1.000000\n0.316\n0.954300\n\n\nRegion: South\n0.027400\n0.045100\n0.610000\n0.544\n1.027800\n\n\nRegion: Southwest\n0.021400\n0.038500\n0.560000\n0.578\n1.021600\n\n\nBlueprinty Customer ★\n0.207600\n0.030900\n6.720000\n&lt; 0.001 ***\n1.230700\n\n\n\n\n\n\n\n\n\n★ = variable of primary interest.   Significance: *** p &lt; 0.001   ** p &lt; 0.01   * p &lt; 0.05.   Reference region: Northeast.\n\n\n\nInterpreting the Coefficients\nAge (quadratic): The positive age coefficient (+0.149) and negative age² coefficient (−0.003) describe an inverted-U relationship. Patent output rises with firm maturity up to a peak age of roughly \\(0.149 / (2 \\times 0.003) \\approx 25\\) years, then gradually declines. Young firms are still building capabilities; very old firms may have exhausted their most novel ideas.\nRegion dummies: All four regional coefficients are small and statistically indistinguishable from zero, suggesting that once age is controlled, regional location adds little additional explanatory power relative to the Northeast baseline.\nBlueprinty customer: The coefficient of +0.208 (z ≈ 6.7, p &lt; 0.001) is the result we care about most. On the log-rate scale:\n\\[\ne^{0.208} \\approx 1.23\n\\]\n\n\n\n\n\n\nKey finding: Holding age and region fixed, Blueprinty customers have an expected patent rate roughly 23% higher than otherwise identical non-customers. The effect is large and statistically very strong."
+  },
+  {
+    "objectID": "projects/project4/hw3_blueprinty.html#the-effect-of-blueprintys-software",
+    "href": "projects/project4/hw3_blueprinty.html#the-effect-of-blueprintys-software",
+    "title": "Does Blueprinty’s Software Help Engineers Win More Patents?",
+    "section": "The Effect of Blueprinty’s Software",
+    "text": "The Effect of Blueprinty’s Software\n\nCounterfactual Prediction\nPoisson regression coefficients are multiplicative — \\(e^{0.208}\\) is a rate ratio, not a count difference. To express the effect in interpretable units (patents), we use a counterfactual approach: for every firm in the data, predict their expected patents as if not a customer (\\(\\hat{y}_0\\)) and as if a customer (\\(\\hat{y}_1\\)), then average the difference.\n\nX0 = X_mat.copy(); X0[:, -1] = 0   # set everyone to non-customer\nX1 = X_mat.copy(); X1[:, -1] = 1   # set everyone to customer\n\nyhat0 = np.exp(X0 @ glm_res.params)\nyhat1 = np.exp(X1 @ glm_res.params)\n\nate = np.mean(yhat1 - yhat0)\nprint(f\"Average treatment effect of Blueprinty: +{ate:.4f} patents over 5 years\")\n\nAverage treatment effect of Blueprinty: +0.7928 patents over 5 years\n\n\n\n\n\n\n\nEach bar is a firm’s predicted patent gain from becoming a Blueprinty customer, holding age and region fixed. Firms at the peak age (~25 years) show the largest absolute gains.\n\n\n\n\nThe firm-level effects vary because older firms already have higher baseline patent rates, so a fixed percentage lift translates to a larger absolute gain. All predicted gains are positive — every firm in the sample is expected to benefit under the model.\n\n\nConclusion\n\n\n\n\n\n\nBottom line: Holding firm age and geographic region fixed, using Blueprinty’s software is associated with an average gain of approximately +0.79 additional patents over five years — roughly one extra patent every six years. Against a non-customer baseline mean of ~3.5 patents, this is a lift of about 23%.\n\n\n\nThat said, this is an observational study, not a randomised experiment. While we have controlled for age and region, we cannot rule out unobserved firm characteristics — R&D budgets, engineering talent, prior patent experience, management quality — that might simultaneously drive Blueprinty adoption and patent success. A randomised controlled trial, or a natural experiment generating exogenous variation in software adoption, would be required to make a fully credible causal claim.\nThe results are consistent with Blueprinty’s marketing claim, and the association is statistically robust. The honest summary: firms that use Blueprinty tend to win more patents, and that difference survives controlling for age and region. Whether the software itself deserves the credit requires stronger identification."
+  },
+  {
+    "objectID": "quarto_website/fantasy-championship.html",
+    "href": "quarto_website/fantasy-championship.html",
+    "title": "🏆 Championship Run",
+    "section": "",
+    "text": "How I combined Yahoo API automation,\n     Monte Carlo simulation, and\n     strategic tanking to win it all"
+  },
+  {
+    "objectID": "quarto_website/fantasy-championship.html#season-numbers",
+    "href": "quarto_website/fantasy-championship.html#season-numbers",
+    "title": "🏆 Championship Run",
+    "section": "Season Numbers",
+    "text": "Season Numbers\n\n  \n    24\n    Weeks Tracked\n  \n    \n    14\n    Teams involved\n  \n  \n    13+1\n    Roster Players\n  \n  \n    100K\n    Simulations / Week\n  \n  \n    trad 9\n    Stat Categories\n  \n  \n    🥇\n    Final Result"
+  },
+  {
+    "objectID": "quarto_website/fantasy-championship.html#season-journey",
+    "href": "quarto_website/fantasy-championship.html#season-journey",
+    "title": "🏆 Championship Run",
+    "section": "Season Journey",
+    "text": "Season Journey\n\n\n  \n    Weeks 1–5\n    Injury Chaos Begins\n    Top draft picks sidelined early. Thanks to the strong roster dominating FG%, REB, AST, and BLK categories, I reached rank 2 early.\n  \n\n  \n    Weeks 6–18\n    Multiple Injuries, Holding Position\n    Roster never fully healthy for 18 straight weeks. Utilized strategic waiver wire moves on category-specific strengths of REB, AST, and low TOs to maintain standings at rank 9.\n  \n\n  \n    Week 19 — Turning Point\n    🔑 Player come back + KD + Raynaud Trade\n    4 players come back from injury after All-star break, and acquired Kevin Durant and Maxime Raynaud at low cost thanks to season ending sale. Projection model flagged an immediate boost across 3PT, PTS, STL.\n  \n\n  \n    Weeks 19–21\n    Roster at Full Strength\n    Jokić, Durant, and Paul George all healthy simultaneously for the first time. Weekly win probabilities climbed above 85%.\n  \n\n  \n    Week 22 — The Tank\n    🎲 Strategic Seed 8 Decision\n    Identified that Jokić and Clingan had only 2 games in Week 23 due to NBA scheduling. Deliberately lost Week 21 to drop to Seed 8, avoiding a top-seed semi-final during the weakest week.\n  \n\n  \n    Weeks 23–24\n    🏆 Playoff Dominance\n    Semi-finals won against a mid-seed opponent despite Jokić's limited games. Finals entered with full roster and 91.7% simulated win probability."
+  },
+  {
+    "objectID": "quarto_website/fantasy-championship.html#the-technical-stack",
+    "href": "quarto_website/fantasy-championship.html#the-technical-stack",
+    "title": "🏆 Championship Run",
+    "section": "The Technical Stack",
+    "text": "The Technical Stack\n\n  \n    🤖\n    Yahoo API Automation\n    Daily automated pulls of roster stats, injury flags, and matchup data\n       via OAuth. Output pushed directly to Excel reports each morning.\n  \n  \n    🎲\n    Monte Carlo Simulation\n    100,000 simulations per matchup using Poisson distributions per player\n       per game. Generated category-level and overall win probabilities.\n  \n  \n    📊\n    Excel Matchup Board\n    Auto-generated weekly Excel boards showing projected vs. actual stats,\n       games remaining, injury status, and category breakdowns.\n  \n  \n    🏥\n    Injury Tracking\n    ESPN injury feed integrated with roster data. Automated GTD/OUT flags\n       with season-average fallbacks to keep projections realistic.\n  \n  \n    ⚗️\n    Last-30 Baseline Stats\n    Rolling 30-day averages as projection baseline, with season-stat\n       fallback for players returning from injury.\n  \n  \n    🌲\n    Games Remaining Model\n    NBA schedule scraper estimated remaining games per team each week,\n       driving volume-adjusted projections that raw averages miss."
+  },
+  {
+    "objectID": "quarto_website/fantasy-championship.html#the-strategic-tank",
+    "href": "quarto_website/fantasy-championship.html#the-strategic-tank",
+    "title": "🏆 Championship Run",
+    "section": "The Strategic Tank",
+    "text": "The Strategic Tank\nMy two best players had a critical NBA scheduling problem in Week 23:\n\nNikola Jokić — elite across all 7 categories, but only 2 games in Week 23\nDonovan Clingan — elite REB + BLK, but only 2 games in Week 23\n\nThis made Week 23 my weakest week of the playoffs regardless of seeding. The key question was: which opponent do I face in that weak week?\n\n\nCode\nimport matplotlib.pyplot as plt\nimport matplotlib.patches as mpatches\nimport matplotlib.gridspec as gridspec\n\nfig = plt.figure(figsize=(13, 6.5))\ngs = gridspec.GridSpec(2, 1, hspace=0.7)\n\nxs = [0.3, 4.2, 8.1]\nweek_labels = ['Week 22\\n(Quarter-finals)', 'Week 23\\n(Semi-finals)', 'Week 24\\n(Finals)']\nBOX_W, BOX_H = 3.5, 0.8\n\ndef draw_row(ax, title, title_color, boxes):\n    ax.set_xlim(0, 12.5)\n    ax.set_ylim(-0.05, 1.6)\n    ax.axis('off')\n    ax.text(0.2, 1.52, title, color=title_color,\n            fontsize=10.5, fontweight='bold', va='top')\n\n    for i, (label, sub, color) in enumerate(boxes):\n        x = xs[i]\n        rect = mpatches.FancyBboxPatch(\n            (x, 0.45), BOX_W, BOX_H,\n            boxstyle=\"round,pad=0.1\",\n            linewidth=1.3, edgecolor='#bbbbbb',\n            facecolor=color\n        )\n        ax.add_patch(rect)\n        ax.text(x + BOX_W/2,\n                0.45 + BOX_H/2 + (0.1 if sub else 0),\n                label, ha='center', va='center',\n                color='white', fontsize=9, fontweight='bold')\n        if sub:\n            ax.text(x + BOX_W/2,\n                    0.45 + BOX_H/2 - 0.18,\n                    sub, ha='center', va='center',\n                    color='#eeeeee', fontsize=7.8)\n        ax.text(x + BOX_W/2, 0.38, week_labels[i],\n                ha='center', va='top',\n                color='#666666', fontsize=7.5)\n        if i &lt; len(boxes) - 1:\n            ax.annotate('',\n                xy=(xs[i+1] - 0.05, 0.45 + BOX_H/2),\n                xytext=(x + BOX_W + 0.05, 0.45 + BOX_H/2),\n                arrowprops=dict(arrowstyle='-&gt;', color='#888888', lw=1.5))\n\n# PATH A: Seed 3-6\nax1 = fig.add_subplot(gs[0])\ndraw_row(ax1,\n    title='PATH A — Seed 3 to 6  (rejected)',\n    title_color='#c62828',\n    boxes=[\n        ('QF: vs Seed 7/8',    '✅ Jokić 4G — Win easily',       '#2e7d32'),\n        ('SF: vs Seed 1 or 2', '❌ Jokić only 2G — Cannot win',  '#c62828'),\n        ('Finals: if reached', '⚠️ Never gets here',             '#9e9e9e'),\n    ]\n)\nax1.text(12.3, 0.85, '~8%\\nchamp\\nprob',\n         ha='right', va='center', fontsize=8.5,\n         color='#c62828', fontweight='bold')\n\n# PATH B: Seed 8\nax2 = fig.add_subplot(gs[1])\ndraw_row(ax2,\n    title='PATH B — Seed 8  ✓ chosen',\n    title_color='#2e7d32',\n    boxes=[\n        ('QF: vs Seed 1',      '⚠️ Jokić 4G — 50/50',           '#e65100'),\n        ('SF: vs Seed 4 or 5', '✅ Jokić 2G — Still winnable',   '#1565c0'),\n        ('Finals: Week 24',    '✅ Full roster — 91.7% win prob', '#1b5e20'),\n    ]\n)\nax2.text(12.3, 0.85, '~16%\\nchamp\\nprob',\n         ha='right', va='center', fontsize=8.5,\n         color='#2e7d32', fontweight='bold')\n\nfig.suptitle(\n    \"The Tank Decision: Jokić's Week 23 Schedule Determined Everything\",\n    fontsize=11.5, fontweight='bold', y=1.01\n)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n\nRound-by-round probability breakdown\n\n\n\n\n\n\n\n\nRound\nSeed 3–6 Path\nSeed 8 Path (chosen)\n\n\n\n\nWeek 22 (QF)\n✅ ~85% — vs easy Seed 7/8\n⚠️ ~50% — vs Seed 1\n\n\nWeek 23 (SF)\n❌ ~15% — Jokić 2G vs top seed\n✅ ~65% — Jokić 2G vs mid seed\n\n\nWeek 24 (Finals)\n⚠️ ~50% if reached\n✅ ~92% — full roster\n\n\nChampionship probability\n85% × 15% × 50% ≈ 6%\n50% × 65% × 92% ≈ 30%\n\n\n\n\nTanking to Seed 8 roughly quintupled the championship probability."
+  },
+  {
+    "objectID": "quarto_website/fantasy-championship.html#automation-pipeline",
+    "href": "quarto_website/fantasy-championship.html#automation-pipeline",
+    "title": "🏆 Championship Run",
+    "section": "Automation Pipeline",
+    "text": "Automation Pipeline\n\n\nCore daily pipeline (run_manual.py)\ndef main():\n    # 1. OAuth authentication with Yahoo API\n    client = YahooClient(auth)\n\n    # 2. Fetch current matchup context\n    matchup = get_current_matchup_context(client, league_key, my_team_key)\n\n    # 3. Pull roster data for both teams\n    my_roster  = get_team_roster(client, matchup.my_team_key)\n    opp_roster = get_team_roster(client, matchup.opponent_team_key)\n\n    # 4. Last-30-day stats as baseline\n    #    (falls back to season avg for returning injured players)\n    baseline_stats = get_player_last_30d_stats(client, all_player_keys)\n\n    # 5. Estimate remaining games per NBA team this week\n    games_remaining = estimate_games_remaining_by_team(\n        week_end=matchup.week_end,\n        team_abbrs=all_team_abbrs\n    )\n\n    # 6. Build projections:\n    #    actuals so far + remaining games × per-game avg\n    my_proj  = build_player_projection_table(...)\n    opp_proj = build_player_projection_table(...)\n\n    # 7. Write Excel matchup board + injury tracking sheet\n    write_excel_report(output_path, my_proj, opp_proj, ...)"
+  },
+  {
+    "objectID": "quarto_website/fantasy-championship.html#key-takeaways",
+    "href": "quarto_website/fantasy-championship.html#key-takeaways",
+    "title": "🏆 Championship Run",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\n\n\n\n\n\nTipWhat Made the Difference\n\n\n\n\nBaseline quality — Last-30-day stats with injury-aware fallbacks gave realistic projections, not season averages skewed by early-season performance.\nGames remaining model — Knowing a player has 4 games vs 2 games this week often matters more than per-game averages alone.\nSimulation over gut feel — Monte Carlo revealed 3PM/TO were already lost before the week started, so focus shifted to winning the other 5 categories.\nThe tank was counter-intuitive — Conventional wisdom says chase the highest seed. The scheduling data showed the opposite was optimal.\n\n\n\n\nBuilt with Python · Yahoo Fantasy API · Monte Carlo Simulation · Quarto"
+  },
+  {
+    "objectID": "quarto_website/index.html",
+    "href": "quarto_website/index.html",
+    "title": "Ben Hsu",
+    "section": "",
+    "text": "University of California, San Diego | San Diego, CA | MS Business Analytics | Jul 2025 - Dec 2026\nNational Taiwan University | Taipei, Taiwan | B.A in Business Administration | Sep 2012 - June 2016"
+  },
+  {
+    "objectID": "quarto_website/index.html#education",
+    "href": "quarto_website/index.html#education",
+    "title": "Ben Hsu",
+    "section": "",
+    "text": "University of California, San Diego | San Diego, CA | MS Business Analytics | Jul 2025 - Dec 2026\nNational Taiwan University | Taipei, Taiwan | B.A in Business Administration | Sep 2012 - June 2016"
+  },
+  {
+    "objectID": "quarto_website/index.html#experience",
+    "href": "quarto_website/index.html#experience",
+    "title": "Ben Hsu",
+    "section": "Experience",
+    "text": "Experience\nLINE Plus Corporation | Product Strategy Analyst | Oct 2021 - May 2025\nIpsos | Senior Research Executive | Sep 2019 - Sep 2021\n\nWhat I work on\nI work at the intersection of data science and business decision-making. My focus areas include pricing analytics, demand forecasting, experimentation, customer segmentation, and text-based modeling. I care about building models that are interpretable, testable, and deployable under real-world constraints."
+  },
+  {
+    "objectID": "quarto_website/projects/codex-nba-fantasy-analytics/index.html#why-i-built-this",
+    "href": "quarto_website/projects/codex-nba-fantasy-analytics/index.html#why-i-built-this",
+    "title": "Codex NBA Fantasy — Agentic Matchup Analytics",
+    "section": "Why I built this",
+    "text": "Why I built this\nWeekly fantasy decisions — who to start, who to stream, who to drop — are usually made on vibes. This project replaces the vibes with a reproducible pipeline: pull the live league state from Yahoo, project the next ~7 days of head-to-head category math, and ship a single Excel workbook that tells me exactly where my matchup is fragile and which waiver pickups would actually move those categories.\nIt runs on demand or on a daily cron, and it’s been the backbone of my real fantasy season."
+  },
+  {
+    "objectID": "quarto_website/projects/codex-nba-fantasy-analytics/index.html#what-it-produces",
+    "href": "quarto_website/projects/codex-nba-fantasy-analytics/index.html#what-it-produces",
+    "title": "Codex NBA Fantasy — Agentic Matchup Analytics",
+    "section": "What it produces",
+    "text": "What it produces\nEach run writes one Excel workbook with four sheets:\nMatchup Board. Head-to-head category projections for me vs. my scheduled opponent across the nine standard Yahoo categories (FG%, FT%, 3PTM, PTS, REB, AST, ST, BLK, TO). Three time slices per category — Now (already locked in), Future (remaining games × projected per-game), and Total. Makes it explicit whether a lead is real or fragile.\nAverage Impact. Season-average impact per player, with a graceful fallback to prior-season averages when the current sample is too small (GP &lt; 10). This avoids the classic “one good game makes a stretch waiver pickup look elite” trap.\nFree Agents. Ranked waiver-wire candidates filtered by which categories I am actually losing in this matchup, scored by remaining games × per-game impact on those categories. Not generic rest-of-season rankings — pickups specifically tuned to flip the categories that matter this week.\nInjury Tracking Lists. A persistent watchlist of injured / suspended / low-availability players, merged from Yahoo statuses, ESPN’s injury feed, and free-text player notes. Each row carries a return-rate score, expected return date, the keyword that triggered the pickup (“questionable”, “doubtful”, “G-League”, “minutes restriction”…), a recency bucket, and per-game category impact. The sheet is reloaded from the previous run on every refresh, so dropoffs and upgrades day-over-day are visible."
+  },
+  {
+    "objectID": "quarto_website/projects/codex-nba-fantasy-analytics/index.html#architecture",
+    "href": "quarto_website/projects/codex-nba-fantasy-analytics/index.html#architecture",
+    "title": "Codex NBA Fantasy — Agentic Matchup Analytics",
+    "section": "Architecture",
+    "text": "Architecture\n┌─────────────────┐    OAuth 2.0     ┌──────────────────────┐\n│  yahoo_auth.py  │ ───────────────▶ │  Yahoo Fantasy API   │\n└────────┬────────┘                  └──────────┬───────────┘\n         │ tokens                                │ XML/JSON\n         ▼                                       ▼\n┌─────────────────┐                  ┌──────────────────────┐\n│ yahoo_client.py │ ◀──────────────  │   data_fetch.py      │\n└─────────────────┘                  │  (rosters, matchups, │\n                                     │   stats, schedules)  │\n                                     └──────────┬───────────┘\n                                                │\n                       ┌────────────────────────┼────────────────────────┐\n                       ▼                        ▼                        ▼\n            ┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐\n            │  projections.py     │  │ external_injuries.py│  │   NBA schedule API  │\n            │ (totals / future /  │  │   (ESPN feed)       │  │ (games remaining)   │\n            │  free-agent score)  │  └─────────────────────┘  └─────────────────────┘\n            └──────────┬──────────┘\n                       ▼\n            ┌──────────────────────┐\n            │   output_writer.py   │  ──▶  output/matchup_report.xlsx\n            └──────────────────────┘\nModule map:\n\n\n\n\n\n\n\nFile\nResponsibility\n\n\n\n\nsrc/config.py\nLoads and validates .env settings\n\n\nsrc/yahoo_auth.py\nOAuth 2.0 flow, token persistence, automatic refresh\n\n\nsrc/yahoo_client.py\nThin Yahoo Fantasy API wrapper with retry + tree-walking helpers\n\n\nsrc/data_fetch.py\nLeague / team / roster / stat fetchers and the schedule heuristic\n\n\nsrc/projections.py\nPer-player projections, matchup category math, free-agent scoring\n\n\nsrc/external_injuries.py\nESPN injury feed + normalized name matching\n\n\nsrc/output_writer.py\nopenpyxl Excel writer with conditional formatting\n\n\nrun_manual.py\nMain entrypoint — full report\n\n\nrun_matchup_board.py\nMatchup-board-only entrypoint (custom week / opponent)\n\n\nrun_week22_playoff_boards.py\nPlayoff-week variant for two arbitrary teams"
+  },
+  {
+    "objectID": "quarto_website/projects/codex-nba-fantasy-analytics/index.html#design-notes",
+    "href": "quarto_website/projects/codex-nba-fantasy-analytics/index.html#design-notes",
+    "title": "Codex NBA Fantasy — Agentic Matchup Analytics",
+    "section": "Design notes",
+    "text": "Design notes\nStats are computed, not scraped. All projections come from the Yahoo Fantasy API. ESPN is used only for injury context.\nTime-aware projections. Splitting each category into Now / Future / Total was the most useful UX choice in the whole project. A 12–11 lead in 3PTM looks different when Now is 10–4 vs. when Now is 2–9 — and the board makes that obvious without me having to mentally subtract.\nSample-size guardrails. Per-game rates fall back to season averages or prior-season averages when fewer than two games exist in the rolling window. Prevents waiver candidates from looking artificially elite off a single hot night.\nInjury intelligence as a first-class feature. The Injury Tracking sheet isn’t just an INJ tag — it scores each watched player on (1) keyword urgency parsed from Yahoo player notes, (2) ESPN’s published expected return date, (3) recency of the news, and (4) per-category fantasy impact. Names listed in MANUAL_TRACK_PLAYERS are pinned regardless of status.\nName normalization. Yahoo, ESPN, and the NBA schedule feed disagree on accents, suffixes, and punctuation. external_injuries.normalize_name makes the joins reliable.\nToken hygiene. Secrets in .env, OAuth tokens in data/yahoo_tokens.json, both gitignored."
+  },
+  {
+    "objectID": "quarto_website/projects/codex-nba-fantasy-analytics/index.html#quickstart",
+    "href": "quarto_website/projects/codex-nba-fantasy-analytics/index.html#quickstart",
+    "title": "Codex NBA Fantasy — Agentic Matchup Analytics",
+    "section": "Quickstart",
+    "text": "Quickstart\ngit clone &lt;repo-url&gt;\ncd codex-nba-fantasy-analytics\npip install -r requirements.txt\ncp .env.example .env       # then fill in Yahoo client id/secret + league + team\npython run_manual.py       # one-time OAuth on first run\nCustom-week scouting:\npython run_matchup_board.py --week 23                                    # auto-detect opponent\npython run_matchup_board.py --week 24 --my-team-id 1 --opponent-team-id 12\npython run_matchup_board.py --week 25 --team-a-id 3 --team-b-id 8        # any two teams\nOptional daily cron:\n./install_daily_cron.sh         # default 08:00\n./install_daily_cron.sh 7 30    # custom 07:30\n./remove_daily_cron.sh"
+  },
+  {
+    "objectID": "quarto_website/projects/codex-nba-fantasy-analytics/index.html#roadmap",
+    "href": "quarto_website/projects/codex-nba-fantasy-analytics/index.html#roadmap",
+    "title": "Codex NBA Fantasy — Agentic Matchup Analytics",
+    "section": "Roadmap",
+    "text": "Roadmap\n\nStreamer-of-the-day suggestions based on schedule density\nPunt-build detector (auto-identify which categories the roster is implicitly punting)\nSlack / email summary in addition to the Excel report\nBacktest harness for projection accuracy"
+  },
+  {
+    "objectID": "quarto_website/projects/codex-nba-fantasy-analytics/index.html#source",
+    "href": "quarto_website/projects/codex-nba-fantasy-analytics/index.html#source",
+    "title": "Codex NBA Fantasy — Agentic Matchup Analytics",
+    "section": "Source",
+    "text": "Source\nGitHub repository →"
+  },
+  {
+    "objectID": "quarto_website/assignment.html",
+    "href": "quarto_website/assignment.html",
+    "title": "Assignments",
+    "section": "",
+    "text": "This page collects my course assignments and related work.\n\n\n\nAssignment 1\nAssignment 2"
+  },
+  {
+    "objectID": "quarto_website/assignment.html#current-assignments",
+    "href": "quarto_website/assignment.html#current-assignments",
+    "title": "Assignments",
+    "section": "",
+    "text": "Assignment 1\nAssignment 2"
+  },
+  {
+    "objectID": "quarto_website/projects.html",
+    "href": "quarto_website/projects.html",
+    "title": "My Projects",
+    "section": "",
+    "text": "Codex NBA Fantasy — Agentic Matchup Analytics\n\n\nAn agentic Python pipeline that pulls live Yahoo NBA Fantasy data, projects end-of-week category outcomes against the scheduled opponent, surfaces high-leverage free agents…\n\n\n\nBen Hsu\n\n\nMay 17, 2026\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "quarto_website/resume.html",
+    "href": "quarto_website/resume.html",
+    "title": "My Resume",
+    "section": "",
+    "text": "Download PDF file."
   }
 ]

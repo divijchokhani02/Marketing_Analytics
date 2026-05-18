@@ -19,5 +19,26 @@
   },
   "projects/project3/index.qmd": {
     "index.html": "53008435"
+  },
+  "projects/project4/hw3_blueprinty.qmd": {
+    "hw3_blueprinty.html": "a5e8b4fe"
+  },
+  "quarto_website/projects/codex-nba-fantasy-analytics/index.qmd": {
+    "index.html": "29ae8114"
+  },
+  "quarto_website/assignment.qmd": {
+    "assignment.html": "b3a5cc75"
+  },
+  "quarto_website/index.qmd": {
+    "index.html": "0ec4496b"
+  },
+  "quarto_website/projects.qmd": {
+    "projects.html": "fd9a691d"
+  },
+  "quarto_website/fantasy-championship.qmd": {
+    "fantasy-championship.html": "9816aeeb"
+  },
+  "quarto_website/resume.qmd": {
+    "resume.html": "ca413c68"
   }
 }
