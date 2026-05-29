@@ -40,5 +40,8 @@
   },
   "quarto_website/resume.qmd": {
     "resume.html": "ca413c68"
+  },
+  "projects/project5/hw4_maxdiff.qmd": {
+    "hw4_maxdiff.html": "a12ff005"
   }
 }

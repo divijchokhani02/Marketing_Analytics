@@ -3,6 +3,7 @@ title: "Does Blueprinty's Software Help Engineers Win More Patents?"
 subtitle: "A Poisson Regression Case Study via Maximum Likelihood Estimation"
 author: "Divij Chokhani"
 date: today
+image: "hw3_blueprinty_files/figure-html/fig-patents-1.png"
 format:
   html:
     toc: true
@@ -96,6 +97,7 @@ print(f"Raw difference             : {mean_cust - mean_nonc:+.2f} patents")
 ```
 
 ```{python}
+#| label: fig-patents
 #| echo: false
 #| fig-cap: "Right-skewed patent counts for both groups. Customers have a higher mean, but the distributions overlap substantially."
 

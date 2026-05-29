@@ -1,0 +1,162 @@
+/* ── Typography & page ──────────────────────────────────────────────── */
+body {
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  color: #1E293B;
+  line-height: 1.75;
+}
+
+h1.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: -0.02em;
+}
+
+p.subtitle {
+  font-size: 1.05rem;
+  color: #475569;
+  margin-top: 0.2rem;
+}
+
+h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #1E3A5F;
+  border-bottom: 2px solid #E2E8F0;
+  padding-bottom: 0.35rem;
+  margin-top: 2.2rem;
+}
+
+h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #1E3A5F;
+  margin-top: 1.6rem;
+}
+
+h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+p { margin-bottom: 1rem; }
+
+/* ── Callout boxes ──────────────────────────────────────────────────── */
+.callout {
+  border-radius: 8px;
+  border-left-width: 4px;
+  padding: 0.9rem 1.2rem;
+  margin: 1.4rem 0;
+  font-size: 0.97rem;
+}
+
+.callout-important {
+  background-color: #FFF7ED;
+  border-left-color: #F97316;
+}
+
+.callout-note {
+  background-color: #EFF6FF;
+  border-left-color: #2563EB;
+}
+
+.callout-tip {
+  background-color: #F0FDF4;
+  border-left-color: #16A34A;
+}
+
+/* ── Tables ─────────────────────────────────────────────────────────── */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.92rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  margin: 1.2rem 0;
+}
+
+thead th {
+  background-color: #1E3A5F !important;
+  color: white !important;
+  padding: 10px 16px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.88rem;
+  letter-spacing: 0.02em;
+}
+
+tbody td {
+  padding: 8px 16px;
+  text-align: center;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+tbody tr:nth-child(even) { background-color: #F8FAFC; }
+tbody tr:hover            { background-color: #EFF6FF; transition: background 0.15s; }
+
+caption {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: #1E293B;
+  padding-bottom: 6px;
+  caption-side: top;
+  text-align: left;
+}
+
+/* ── Code blocks ────────────────────────────────────────────────────── */
+pre {
+  border-radius: 8px;
+  border: 1px solid #E2E8F0;
+  font-size: 0.86rem;
+}
+
+code {
+  font-size: 0.88em;
+  background: #F1F5F9;
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: #0F172A;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+}
+
+/* ── Figures ────────────────────────────────────────────────────────── */
+.quarto-figure {
+  margin: 1.5rem 0;
+}
+
+figcaption {
+  font-size: 0.85rem;
+  color: #64748B;
+  text-align: center;
+  margin-top: 0.4rem;
+  font-style: italic;
+}
+
+/* ── TOC ────────────────────────────────────────────────────────────── */
+#TOC {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  font-size: 0.9rem;
+}
+
+#TOC ul { padding-left: 1.2rem; }
+#TOC a  { color: #2563EB; text-decoration: none; }
+#TOC a:hover { text-decoration: underline; }
+
+/* ── Horizontal rules ───────────────────────────────────────────────── */
+hr {
+  border: none;
+  border-top: 1px solid #E2E8F0;
+  margin: 2rem 0;
+}
+
+/* ── Inline math ────────────────────────────────────────────────────── */
+.math { font-size: 1rem; }
